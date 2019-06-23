@@ -62,7 +62,9 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                         Log.d("masuksiniga", "masuk YES");
                         deleteInvitation(invitationKey);
                         getViewModel().updateAccepted(invitationKey, 1);
-                        gotoIntent(PlayActivity.class, true);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("player", 2);
+                        gotoIntent(PlayActivity.class, bundle,true);
                     }
                 });
 
@@ -113,7 +115,9 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                 // IF RESPONDED AND ACCEPTED
                 if(invite.getResponded() == 1 && invite.getAccepted() == 1){
                     // GO TO PLAY
-                    gotoIntent(PlayActivity.class, true);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("player", 1);
+                    gotoIntent(PlayActivity.class, bundle, true);
                 }
             }
         });

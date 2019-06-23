@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel, LoginActivityBin
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
                         if(aBoolean){
-                             gotoIntent(RoomActivity.class, true);
+                             gotoIntent(RoomActivity.class, null, true);
                         }
                         else{
                             ToastUtil.make(LoginActivity.this, "Incorrect email / password");
@@ -51,7 +51,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel, LoginActivityBin
             }
         }
         else if (v.equals(getBinding().txtSignup)){
-            gotoIntent(SignUpActivity.class, false);
+            gotoIntent(SignUpActivity.class, null, false);
         }
     }
 

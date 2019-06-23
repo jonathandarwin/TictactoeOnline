@@ -60,8 +60,11 @@ public class BaseActivity<VM extends ViewModel, DataBinding extends ViewDataBind
         return binding;
     }
 
-    protected void gotoIntent(Class classIntent, boolean isFinish){
+    protected void gotoIntent(Class classIntent, Bundle bundle, boolean isFinish){
         Intent intent = new Intent(this, classIntent);
+        if(bundle != null){
+            intent.putExtras(bundle);
+        }
         startActivity(intent);
         if(isFinish){
             finish();
