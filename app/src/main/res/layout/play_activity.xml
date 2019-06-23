@@ -6,12 +6,8 @@
 
     <data>
         <variable
-            name="player1"
-            type="String"/>
-
-        <variable
-            name="player2"
-            type="String"/>
+            name="viewModel"
+            type="com.example.tictactoe.model.Play"/>
     </data>
 
     <LinearLayout
@@ -43,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorBlack"
                     tools:text="Jonathan Darwin"
-                    android:text="@{player1}"
+                    android:text="@{viewModel.player1.name}"
                     android:drawableLeft="@drawable/red"
                     android:drawablePadding="10dp"
                     android:gravity="center"
@@ -51,6 +47,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/turn1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorRed"
@@ -73,13 +70,14 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorBlack"
                     tools:text="Siapa pun itu"
-                    android:text="@{player2}"
+                    android:text="@{viewModel.player2.name}"
                     android:drawableLeft="@drawable/blue"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     />
 
                 <TextView
+                    android:id="@+id/turn2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorBlue"

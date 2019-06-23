@@ -41,6 +41,7 @@ public class BaseActivity<VM extends ViewModel, DataBinding extends ViewDataBind
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(this)).get(vm);
         binding = DataBindingUtil.setContentView(this, layout);
+        setListener();
     }
 
     @Override
@@ -50,6 +51,10 @@ public class BaseActivity<VM extends ViewModel, DataBinding extends ViewDataBind
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    protected void setListener(){
+
     }
 
     protected VM getViewModel(){

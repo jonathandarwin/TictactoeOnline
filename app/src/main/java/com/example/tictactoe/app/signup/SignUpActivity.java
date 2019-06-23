@@ -33,7 +33,9 @@ public class SignUpActivity extends BaseActivity<SignUpViewModel, SignupActivity
         }
     }
 
-    private void setListener(){
+    @Override
+    protected void setListener() {
+        super.setListener();
         getBinding().btnSignup.setOnClickListener(this);
     }
 }

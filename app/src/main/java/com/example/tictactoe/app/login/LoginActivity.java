@@ -55,7 +55,9 @@ public class LoginActivity extends BaseActivity<LoginViewModel, LoginActivityBin
         }
     }
 
-    private void setListener(){
+    @Override
+    protected void setListener() {
+        super.setListener();
         getBinding().btnLogin.setOnClickListener(this);
         getBinding().txtSignup.setOnClickListener(this);
     }

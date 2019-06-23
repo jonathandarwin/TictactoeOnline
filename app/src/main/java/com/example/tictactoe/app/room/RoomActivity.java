@@ -52,7 +52,7 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
         });
         getViewModel().checkInvitation().observe(this, new Observer<Invite>() {
             @Override
-            public void onChanged(@Nullable Invite invite) {
+            public void onChanged(@Nullable final Invite invite) {
                 final String invitationKey = invite.getKey();
                 AlertDialog.Builder dialog = createDialogConfirmation("Invitation from " + invite.getSenderName(), "You got invitation from " + invite.getSender());
                 Log.d("masuksiniga", "masuk CHECK INVITATION");
@@ -63,7 +63,11 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                         deleteInvitation(invitationKey);
                         getViewModel().updateAccepted(invitationKey, 1);
                         Bundle bundle = new Bundle();
-                        bundle.putInt("player", 2);
+                        bundle.putInt("playerNumber", 2);
+                        User user = new User();
+                        user.setName(invite.getSenderName());
+                        user.setEmail(invite.getSender());
+                        bundle.putSerializable("player", user);
                         gotoIntent(PlayActivity.class, bundle,true);
                     }
                 });
@@ -96,7 +100,7 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                 invitationKey = getViewModel().sendInvitation(invite);
                 if(!invitationKey.equals("")){
                     ToastUtil.make(RoomActivity.this, "Send Invitation Success");
-                    listenInvitationKey();
+                    listenInvitationKey(user);
                 }
                 else{
                     ToastUtil.make(RoomActivity.this, "Send Invitation Failed");
@@ -108,7 +112,7 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
         getBinding().recyclerView.setAdapter(adapter);
     }
 
-    public void listenInvitationKey(){
+    public void listenInvitationKey(final User player2){
         getViewModel().listenInvitationKey(invitationKey).observe(this, new Observer<Invite>() {
             @Override
             public void onChanged(@Nullable Invite invite) {
@@ -116,7 +120,8 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                 if(invite.getResponded() == 1 && invite.getAccepted() == 1){
                     // GO TO PLAY
                     Bundle bundle = new Bundle();
-                    bundle.putInt("player", 1);
+                    bundle.putInt("playerNumber", 1);
+                    bundle.putSerializable("player", player2);
                     gotoIntent(PlayActivity.class, bundle, true);
                 }
             }

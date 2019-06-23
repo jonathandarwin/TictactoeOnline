@@ -5,7 +5,9 @@ import android.databinding.Bindable;
 
 import com.example.tictactoe.BR;
 
-public class User extends BaseObservable {
+import java.io.Serializable;
+
+public class User extends BaseObservable implements Serializable {
     public String email;
     public String password;
     public String name;
