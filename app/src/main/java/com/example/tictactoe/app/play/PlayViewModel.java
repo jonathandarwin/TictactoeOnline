@@ -21,6 +21,8 @@ import com.google.android.gms.common.internal.ResourceUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.List;
+
 public class PlayViewModel extends ViewModel {
 
     private Context context;
@@ -54,12 +56,14 @@ public class PlayViewModel extends ViewModel {
     }
 
     public boolean validateButton(Play play, int id){
-        Log.d("masuksiniga", "color di list : " + play.getListBox().get(id-1));
-        Log.d("masuksiniga", "color di R    : " + context.getResources().getColor(R.color.colorBrown));
         return play.getListBox().get(id-1) == context.getResources().getColor(R.color.colorBrown) ? true : false;
     }
 
     public int getBoxPosition(String id){
         return Integer.parseInt(id.substring(3));
+    }
+
+    public void checkBox(Play play){
+        List<Integer> box = play.getListBox();
     }
 }

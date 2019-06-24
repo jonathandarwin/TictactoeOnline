@@ -79,12 +79,6 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
     public void onClick(View v) {
         // VALIDATE TURN AND VALIDATE BUTTON
         if(turn == playerNumber && getViewModel().validateButton(play, getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId())))){
-            // SET COLOR TO BUTTON
-//            Drawable drawable = v.getBackground();
-//            drawable = DrawableCompat.wrap(drawable);
-//            DrawableCompat.setTint(drawable, getResources().getColor(playerNumber == 1 ? R.color.colorRed : R.color.colorBlue));
-//            v.setBackground(drawable);
-
             // UPDATE BOX
             int boxPosition = getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId()));
             play.getListBox().set(boxPosition-1, getResources().getColor(turn == 1 ? R.color.colorRed : R.color.colorBlue));
@@ -111,7 +105,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
             public void onChanged(@Nullable Play response) {
                 play = response;
                 if(response != null){
-                    // UDPATE TURN - FOR OPPONENT
+                    // UPDATE TURN - FOR OPPONENT
                     turn = response.getTurn();
                     if(response.getTurn() == 1){
                         getBinding().turn1.setVisibility(View.VISIBLE);
@@ -121,6 +115,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
                         getBinding().turn1.setVisibility(View.GONE);
                         getBinding().turn2.setVisibility(View.VISIBLE);
                     }
+                    
                     getBinding().setViewModel(response);
                 }
             }
