@@ -54,6 +54,7 @@
                     android:text="Your turn"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
+                    android:visibility="gone"
                     />
 
 
@@ -84,6 +85,7 @@
                     android:text="Your turn"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
+                    android:visibility="gone"
                     />
 
             </LinearLayout>
@@ -113,6 +115,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/box2"
+                    android:backgroundTint="@{viewModel.listBox[0]}"
                     />
 
                 <Button
@@ -123,6 +126,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/box3"
                     app:layout_constraintLeft_toRightOf="@id/box1"
+                    android:backgroundTint="@{viewModel.listBox[1]}"
                     />
 
                 <Button
@@ -133,6 +137,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/box2"
+                    android:backgroundTint="@{viewModel.listBox[2]}"
                     />
 
             </android.support.constraint.ConstraintLayout>
@@ -150,6 +155,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/box5"
+                    android:backgroundTint="@{viewModel.listBox[3]}"
                     />
 
                 <Button
@@ -160,6 +166,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/box6"
                     app:layout_constraintLeft_toRightOf="@id/box4"
+                    android:backgroundTint="@{viewModel.listBox[4]}"
                     />
 
                 <Button
@@ -170,6 +177,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/box5"
+                    android:backgroundTint="@{viewModel.listBox[5]}"
                     />
 
             </android.support.constraint.ConstraintLayout>
@@ -187,6 +195,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/box8"
+                    android:backgroundTint="@{viewModel.listBox[6]}"
                     />
 
                 <Button
@@ -197,6 +206,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/box9"
                     app:layout_constraintLeft_toRightOf="@id/box7"
+                    android:backgroundTint="@{viewModel.listBox[7]}"
                     />
 
                 <Button
@@ -207,6 +217,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/box8"
+                    android:backgroundTint="@{viewModel.listBox[8]}"
                     />
 
             </android.support.constraint.ConstraintLayout>

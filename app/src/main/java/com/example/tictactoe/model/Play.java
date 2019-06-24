@@ -5,11 +5,16 @@ import android.databinding.Bindable;
 
 import com.example.tictactoe.BR;
 
+import java.util.List;
+
 public class Play extends BaseObservable {
+    protected String key;
     protected User player1;
     protected User player2;
     protected int color1;
     protected int color2;
+    protected List<Integer> listBox;
+    protected int turn;
 
     @Bindable
     public User getPlayer1() {
@@ -50,4 +55,36 @@ public class Play extends BaseObservable {
         this.color2 = color2;
         notifyPropertyChanged(BR.color2);
     }
+
+    @Bindable
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Bindable
+    public List<Integer> getListBox() {
+        return listBox;
+    }
+
+    public Play setListBox(List<Integer> listBox) {
+        this.listBox = listBox;
+        notifyPropertyChanged(BR.listBox);
+        return this;
+    }
+
+    @Bindable
+    public int getTurn() {
+        return turn;
+    }
+
+    public Play setTurn(int turn) {
+        this.turn = turn;
+        notifyPropertyChanged(BR.turn);
+        return this;
+    }
+
 }

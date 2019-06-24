@@ -68,6 +68,7 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                         user.setName(invite.getSenderName());
                         user.setEmail(invite.getSender());
                         bundle.putSerializable("player", user);
+                        bundle.putString("key", invitationKey);
                         gotoIntent(PlayActivity.class, bundle,true);
                     }
                 });
@@ -122,6 +123,7 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                     Bundle bundle = new Bundle();
                     bundle.putInt("playerNumber", 1);
                     bundle.putSerializable("player", player2);
+                    bundle.putString("key", invitationKey);
                     gotoIntent(PlayActivity.class, bundle, true);
                 }
             }
