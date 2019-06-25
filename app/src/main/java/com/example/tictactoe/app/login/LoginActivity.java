@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.tictactoe.R;
 import com.example.tictactoe.app.room.RoomActivity;
 import com.example.tictactoe.app.signup.SignUpActivity;
+import com.example.tictactoe.common.Auth;
 import com.example.tictactoe.common.BaseActivity;
 import com.example.tictactoe.databinding.LoginActivityBinding;
 import com.example.tictactoe.model.User;
@@ -27,6 +28,9 @@ public class LoginActivity extends BaseActivity<LoginViewModel, LoginActivityBin
         super.onCreate(savedInstanceState);
         setListener();
         getBinding().setViewModel(new User());
+        if(isLoggedIn()){
+            gotoIntent(RoomActivity.class, null, true);
+        }
     }
 
     @Override

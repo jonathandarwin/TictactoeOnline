@@ -5,12 +5,10 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
-
 import com.example.tictactoe.common.APIHandler;
 import com.example.tictactoe.common.APIHelper;
+import com.example.tictactoe.common.Auth;
 import com.example.tictactoe.model.Invite;
-import com.example.tictactoe.model.Room;
-import com.example.tictactoe.model.SESSION;
 import com.example.tictactoe.model.User;
 import com.example.tictactoe.repository.RoomRepository;
 import com.google.firebase.database.DataSnapshot;
@@ -22,18 +20,18 @@ import java.util.List;
 public class RoomViewModel extends ViewModel {
     private Context context;
     private RoomRepository repo;
+    Auth auth;
 
     public RoomViewModel(Context context){
         this.context = context;
         repo = RoomRepository.getInstance();
+        auth = new Auth(context);
     }
 
     public String joinRoom(){
-        User user = new User();
-        user.setEmail(SESSION.email);
-        user.setName(SESSION.name);
+        User user = auth.loadData();
+        user.setPassword(null);
         return repo.joinRoom(user);
-
     }
 
     public LiveData<List<User>> getRoomUser(){
@@ -44,7 +42,7 @@ public class RoomViewModel extends ViewModel {
                 List<User> listUser = new ArrayList<>();
                 for(DataSnapshot item : dataSnapshot.getChildren()){
                     User user = item.getValue(User.class);
-                    if(!user.getEmail().equals(SESSION.email)){
+                    if(!user.getEmail().equals(auth.loadData().getEmail())){
                         listUser.add(user);
                     }
                 }
@@ -62,8 +60,8 @@ public class RoomViewModel extends ViewModel {
 
     public Invite setInvitation(User user){
         Invite invite = new Invite();
-        invite.setSender(SESSION.email);
-        invite.setSenderName(SESSION.name);
+        invite.setSender(auth.loadData().getEmail());
+        invite.setSenderName(auth.loadData().getName());
         invite.setReceiver(user.getEmail());
         invite.setReceiverName(user.getName());
         invite.setResponded(0);
@@ -83,9 +81,7 @@ public class RoomViewModel extends ViewModel {
                 for(DataSnapshot item : dataSnapshot.getChildren()){
                     Invite invite = item.getValue(Invite.class);
                     invite.setKey(item.getKey());
-                    Log.d("masuksiniga", "invite key : " + item.getKey());
-                    Log.d("masuksiniga", "invite is responded : " + invite.getResponded());
-                    if(invite.getReceiver().equals(SESSION.email) && invite.getResponded() == 0){
+                    if(invite.getReceiver().equals(auth.loadData().getEmail()) && invite.getResponded() == 0){
                         result.setValue(invite);
                     }
                 }

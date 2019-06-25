@@ -50,13 +50,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             >
 
             <Button
                 android:id="@+id/btnInvite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="Invite"
                 android:background="@android:color/transparent"
                 />

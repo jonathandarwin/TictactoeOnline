@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 
 import com.example.tictactoe.common.APIHandler;
-import com.example.tictactoe.model.SESSION;
+import com.example.tictactoe.common.Auth;
 import com.example.tictactoe.model.User;
 import com.example.tictactoe.repository.UserRepository;
 import com.google.firebase.database.DataSnapshot;
@@ -37,9 +37,8 @@ public class LoginViewModel extends ViewModel {
                 for(DataSnapshot item : dataSnapshot.getChildren()){
                     User data = item.getValue(User.class);
                     if(data.getPassword().equals(user.getPassword())){
-                        SESSION.email = data.getEmail();
-                        SESSION.name = data.getName();
-                        SESSION.password = data.getPassword();
+                        Auth auth = new Auth(context);
+                        auth.saveData(data);
                         bool = true;
                     }
                     else{

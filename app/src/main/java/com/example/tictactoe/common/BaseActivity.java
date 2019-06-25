@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.tictactoe.factory.ViewModelFactory;
+import com.example.tictactoe.model.User;
 import com.google.firebase.FirebaseApp;
 
 public class BaseActivity<VM extends ViewModel, DataBinding extends ViewDataBinding> extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class BaseActivity<VM extends ViewModel, DataBinding extends ViewDataBind
     DataBinding binding;
     Class<VM> vm;
     int layout;
+    Auth auth;
 
     public BaseActivity(){
 
@@ -38,6 +40,7 @@ public class BaseActivity<VM extends ViewModel, DataBinding extends ViewDataBind
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
+        auth = new Auth(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(this)).get(vm);
         binding = DataBindingUtil.setContentView(this, layout);
@@ -81,5 +84,13 @@ public class BaseActivity<VM extends ViewModel, DataBinding extends ViewDataBind
         builder.setTitle(title);
         builder.setMessage(message);
         return builder;
+    }
+
+    protected User loadUserData(){
+        return auth.loadData();
+    }
+
+    protected boolean isLoggedIn(){
+        return auth.isLoggedIn();
     }
 }

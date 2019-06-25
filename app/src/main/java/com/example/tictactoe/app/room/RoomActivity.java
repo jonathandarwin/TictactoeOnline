@@ -14,7 +14,6 @@ import com.example.tictactoe.app.play.PlayActivity;
 import com.example.tictactoe.common.BaseActivity;
 import com.example.tictactoe.databinding.RoomActivityBinding;
 import com.example.tictactoe.model.Invite;
-import com.example.tictactoe.model.SESSION;
 import com.example.tictactoe.model.User;
 import com.example.tictactoe.util.ToastUtil;
 import java.util.ArrayList;
@@ -60,11 +59,9 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
             public void onChanged(@Nullable final Invite invite) {
                 final String invitationKey = invite.getKey();
                 AlertDialog.Builder dialog = createDialogConfirmation("Invitation from " + invite.getSenderName(), "You got invitation from " + invite.getSender());
-                Log.d("masuksiniga", "masuk CHECK INVITATION");
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("masuksiniga", "masuk YES");
                         deleteInvitation(invitationKey);
                         getViewModel().updateAccepted(invitationKey, 1);
                         Bundle bundle = new Bundle();
@@ -82,7 +79,6 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteInvitation(invitationKey);
-                        Log.d("masuksiniga", "masuk NO");
                     }
                 });
 

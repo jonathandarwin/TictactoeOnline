@@ -1,20 +1,14 @@
 package com.example.tictactoe.app.play;
 
 import android.arch.lifecycle.Observer;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-
 import com.example.tictactoe.R;
 import com.example.tictactoe.app.room.RoomActivity;
 import com.example.tictactoe.common.BaseActivity;
 import com.example.tictactoe.databinding.PlayActivityBinding;
 import com.example.tictactoe.model.Play;
-import com.example.tictactoe.model.SESSION;
 import com.example.tictactoe.model.User;
 
 import java.util.ArrayList;
@@ -44,9 +38,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
         key = getIntent().getExtras().getString("key");
 
         User userIntent = (User) getIntent().getExtras().getSerializable("player");
-        User user = new User();
-        user.setEmail(SESSION.email);
-        user.setName(SESSION.name);
+        User user = loadUserData();
 
         play.setKey(key);
         resetGame();
@@ -87,7 +79,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
     public void onClick(View v) {
         // VALIDATE TURN AND VALIDATE BUTTON
         if(v.equals(getBinding().btnPlayAgain)){
-            String text = SESSION.name + " wants to play again.";
+            String text = loadUserData().getName() + " wants to play again.";
             if(playerNumber == 1){
                 play.setPlayer2Message(text);
             }
@@ -104,7 +96,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
             getViewModel().insertPlay(play);
         }
         else if(v.equals(getBinding().btnQuit)){
-            String text = SESSION.name + " has left the game.";
+            String text = loadUserData().getName() + " has left the game.";
             if(playerNumber == 1){
                 play.setPlayer2Message(text);
             }
