@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.tictactoe.R;
+import com.example.tictactoe.app.room.RoomActivity;
 import com.example.tictactoe.common.BaseActivity;
 import com.example.tictactoe.databinding.PlayActivityBinding;
 import com.example.tictactoe.model.Play;
@@ -103,7 +104,16 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
             getViewModel().insertPlay(play);
         }
         else if(v.equals(getBinding().btnQuit)){
+            String text = SESSION.name + " has left the game.";
+            if(playerNumber == 1){
+                play.setPlayer2Message(text);
+            }
+            else if(playerNumber == 2){
+                play.setPlayer1Message(text);
+            }
 
+            getViewModel().insertPlay(play);
+            gotoIntent(RoomActivity.class, null, true);
         }
         else{
             // BOX
