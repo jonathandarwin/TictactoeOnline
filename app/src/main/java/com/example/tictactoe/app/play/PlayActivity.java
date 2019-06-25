@@ -19,6 +19,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
 
     private static final String YOU_WIN = "You Win!";
     private static final String YOU_LOSE = "You Lose!";
+    private static final String DRAW = "Draw...";
 
     Play play;
     int playerNumber = 0;
@@ -153,7 +154,13 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
                     winner = getViewModel().checkBox(play);
                     if(winner != 0){
                         getBinding().llWin.setVisibility(View.VISIBLE);
-                        if(winner == playerNumber){
+
+                        // DRAW
+                        if(winner == 3){
+                            getBinding().txtWinner.setText(DRAW);
+                            getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorBrown));
+                        }
+                        else if(winner == playerNumber){
                             getBinding().txtWinner.setText(YOU_WIN);
                             getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorGreen));
                         }

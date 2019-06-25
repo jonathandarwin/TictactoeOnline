@@ -66,6 +66,18 @@ public class PlayViewModel extends ViewModel {
     public int checkBox(Play play){
         List<Integer> box = play.getListBox();
         int boxNumber = -1;
+        int filled = 0;
+        // CHECK IF ALL THE BOX IS FILLED WITH COLOR
+        for (int i=0; i<play.getListBox().size(); i++){
+            if(play.getListBox().get(i).intValue() != context.getResources().getColor(R.color.colorBrown)){
+                filled++;
+            }
+        }
+
+        if(filled == 9){
+            return 3;
+        }
+
         // CHECK ROW
         for (int i=0; i<9; i+=3){
             if((box.get(i).intValue() == box.get(i+1).intValue() && box.get(i+1).intValue() == box.get(i+2).intValue())){
