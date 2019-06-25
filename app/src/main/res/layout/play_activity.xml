@@ -225,16 +225,21 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llWin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:visibility="gone"
+            android:layout_marginTop="30dp"
             >
 
             <TextView
+                android:id="@+id/txtWinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                tools:text="You win"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 />
 
         </LinearLayout>

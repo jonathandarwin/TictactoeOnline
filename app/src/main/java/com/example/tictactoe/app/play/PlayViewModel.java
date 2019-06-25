@@ -63,7 +63,48 @@ public class PlayViewModel extends ViewModel {
         return Integer.parseInt(id.substring(3));
     }
 
-    public void checkBox(Play play){
+    public int checkBox(Play play){
         List<Integer> box = play.getListBox();
+        int boxNumber = -1;
+        // CHECK ROW
+        for (int i=0; i<9; i+=3){
+            if((box.get(i).intValue() == box.get(i+1).intValue() && box.get(i+1).intValue() == box.get(i+2).intValue())){
+                return checkWinner(box.get(i).intValue());
+            }
+
+            // CHECK DIAGONAL
+            switch(i){
+                case 0:
+                    if((box.get(i).intValue() == box.get(i+4).intValue() && box.get(i+4).intValue() == box.get(i+8).intValue())){
+                        return checkWinner(box.get(i).intValue());
+                    }
+                    break;
+                case 6:
+                    if((box.get(i).intValue() == box.get(i-2).intValue() && box.get(i-2).intValue() == box.get(i-4).intValue())){
+                        return checkWinner(box.get(i).intValue());
+                    }
+                    break;
+            }
+        }
+
+        // CHECK COLUMN
+        for (int i=0; i<3; i++){
+            if((box.get(i).intValue() == box.get(i+3).intValue() && box.get(i+3).intValue() == box.get(i+6).intValue())){
+                return checkWinner(box.get(i).intValue());
+            }
+        }
+
+        return 0;
+    }
+
+
+    private int checkWinner(int box){
+        if(box == context.getResources().getColor(R.color.colorRed)){
+            return 1;
+        }
+        else if (box == context.getResources().getColor(R.color.colorBlue)){
+            return 2;
+        }
+        return 0;
     }
 }

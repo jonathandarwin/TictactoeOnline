@@ -22,10 +22,14 @@ import java.util.List;
 public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBinding>
             implements View.OnClickListener{
 
+    private static final String YOU_WIN = "You Win!";
+    private static final String YOU_LOSE = "You Lose!";
+
     Play play;
     int playerNumber = 0;
     String key;
     int turn = 1;
+    int winner = 0;
 
     public PlayActivity(){
         super(PlayViewModel.class, R.layout.play_activity);
@@ -78,7 +82,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
     @Override
     public void onClick(View v) {
         // VALIDATE TURN AND VALIDATE BUTTON
-        if(turn == playerNumber && getViewModel().validateButton(play, getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId())))){
+        if(winner == 0 && turn == playerNumber && getViewModel().validateButton(play, getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId())))){
             // UPDATE BOX
             int boxPosition = getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId()));
             play.getListBox().set(boxPosition-1, getResources().getColor(turn == 1 ? R.color.colorRed : R.color.colorBlue));
@@ -115,8 +119,20 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
                         getBinding().turn1.setVisibility(View.GONE);
                         getBinding().turn2.setVisibility(View.VISIBLE);
                     }
-                    
+
                     getBinding().setViewModel(response);
+
+                    winner = getViewModel().checkBox(play);
+                    if(winner != 0){
+                        if(winner == playerNumber){
+                            getBinding().txtWinner.setText(YOU_WIN);
+                            getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorGreen));
+                        }
+                        else {
+                            getBinding().txtWinner.setText(YOU_LOSE);
+                            getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorRed));
+                        }
+                    }
                 }
             }
         });
