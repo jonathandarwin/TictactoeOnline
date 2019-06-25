@@ -13,9 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="50dp"
         android:orientation="vertical"
-        android:gravity="center"
         >
 
         <!-- INFO -->
@@ -23,16 +21,24 @@
             android:id="@+id/llInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:layout_weight="0.1"
             >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/colorRed"
+                    />
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -40,10 +46,8 @@
                     android:textColor="@color/colorBlack"
                     tools:text="Jonathan Darwin"
                     android:text="@{viewModel.player1.name}"
-                    android:drawableLeft="@drawable/red"
-                    android:drawablePadding="10dp"
                     android:gravity="center"
-
+                    android:layout_margin="10dp"
                     />
 
                 <TextView
@@ -53,28 +57,38 @@
                     android:textColor="@color/colorRed"
                     android:text="Your turn"
                     android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     />
 
 
             </LinearLayout>
 
+            <View
+                style="@style/HorizontalDivider"
+                />
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center"
                 >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/colorBlue"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorBlack"
-                    tools:text="Siapa pun itu"
+                    tools:text="testing"
                     android:text="@{viewModel.player2.name}"
-                    android:drawableLeft="@drawable/blue"
-                    android:drawablePadding="10dp"
                     android:gravity="center"
+                    android:layout_margin="10dp"
                     />
 
                 <TextView
@@ -84,154 +98,141 @@
                     android:textColor="@color/colorBlue"
                     android:text="Your turn"
                     android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     />
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <View
+            style="@style/VerticalDivider"/>
 
         <!-- TICTACTOE BOX -->
         <LinearLayout
             android:id="@+id/llBox"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
+            android:layout_weight="5"
+            android:gravity="center"
+            android:layout_marginTop="50dp"
             >
 
             <!-- ROW 1 -->
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
 
                 <Button
                     android:id="@+id/box1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/box2"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[0]}"
                     />
 
                 <Button
                     android:id="@+id/box2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/box3"
-                    app:layout_constraintLeft_toRightOf="@id/box1"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[1]}"
                     />
 
                 <Button
                     android:id="@+id/box3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/box2"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[2]}"
                     />
 
-            </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
 
             <!-- ROW 2 -->
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
 
                 <Button
                     android:id="@+id/box4"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/box5"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[3]}"
                     />
 
                 <Button
                     android:id="@+id/box5"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/box6"
-                    app:layout_constraintLeft_toRightOf="@id/box4"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[4]}"
                     />
 
                 <Button
                     android:id="@+id/box6"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/box5"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[5]}"
                     />
 
-            </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
 
             <!-- ROW 3 -->
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
 
                 <Button
                     android:id="@+id/box7"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/box8"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[6]}"
                     />
 
                 <Button
                     android:id="@+id/box8"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/box9"
-                    app:layout_constraintLeft_toRightOf="@id/box7"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[7]}"
                     />
 
                 <Button
                     android:id="@+id/box9"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/box8"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:backgroundTint="@{viewModel.listBox[8]}"
                     />
 
-            </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llWin"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_marginTop="30dp"
-            android:visibility="gone"
+            android:visibility="invisible"
+            android:layout_weight="3"
             >
 
             <TextView

@@ -163,7 +163,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
                         }
                     }
                     else{
-                        getBinding().llWin.setVisibility(View.GONE);
+                        getBinding().llWin.setVisibility(View.INVISIBLE);
                     }
 
                     // SET MESSAGE

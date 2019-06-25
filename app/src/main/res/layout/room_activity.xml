@@ -31,13 +31,14 @@
                 android:src="@drawable/ic_error"
                 android:layout_centerInParent="true"
                 android:layout_above="@+id/txtNoData"
+                android:layout_margin="15dp"
                 />
 
             <TextView
                 android:id="@+id/txtNoData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No User"
+                android:text="No User Found"
                 android:textColor="@color/colorRed"
                 android:textSize="25sp"
                 android:layout_centerInParent="true"
