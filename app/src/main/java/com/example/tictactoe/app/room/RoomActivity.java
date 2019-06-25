@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.View;
 
 import com.example.tictactoe.R;
 import com.example.tictactoe.app.play.PlayActivity;
@@ -43,9 +44,13 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
         getViewModel().getRoomUser().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(@Nullable List<User> users) {
+                getBinding().noData.setVisibility(View.GONE);
                 listUser.clear();
                 if(users.size() > 0){
                     listUser.addAll(users);
+                }
+                else{
+                    getBinding().noData.setVisibility(View.VISIBLE);
                 }
                 adapter.notifyDataSetChanged();
             }
