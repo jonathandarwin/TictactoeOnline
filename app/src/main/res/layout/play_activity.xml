@@ -231,6 +231,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_marginTop="30dp"
+            android:visibility="gone"
             >
 
             <TextView
@@ -240,6 +241,41 @@
                 tools:text="You win"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <Button
+                    android:id="@+id/btnPlayAgain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Play Again"
+                    android:textColor="@color/colorWhite"
+                    android:backgroundTint="@color/colorGreen"
+                    />
+
+                <Button
+                    android:id="@+id/btnQuit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quit"
+                    android:textColor="@color/colorWhite"
+                    android:backgroundTint="@color/colorRed"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtWaiting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Waiting..."
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="10dp"
                 />
 
         </LinearLayout>

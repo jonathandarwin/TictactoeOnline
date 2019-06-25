@@ -15,6 +15,9 @@ public class Play extends BaseObservable {
     protected int color2;
     protected List<Integer> listBox;
     protected int turn;
+    protected int playAgain;
+    protected String player1Message;
+    protected String player2Message;
 
     @Bindable
     public User getPlayer1() {
@@ -87,4 +90,36 @@ public class Play extends BaseObservable {
         return this;
     }
 
+    @Bindable
+    public int getPlayAgain() {
+        return playAgain;
+    }
+
+    public Play setPlayAgain(int playAgain) {
+        this.playAgain = playAgain;
+        notifyPropertyChanged(BR.playAgain);
+        return this;
+    }
+
+    @Bindable
+    public String getPlayer1Message() {
+        return player1Message;
+    }
+
+    public Play setPlayer1Message(String player1Message) {
+        this.player1Message = player1Message;
+        notifyPropertyChanged(BR.player1Message);
+        return this;
+    }
+
+    @Bindable
+    public String getPlayer2Message() {
+        return player2Message;
+    }
+
+    public Play setPlayer2Message(String player2Message) {
+        this.player2Message = player2Message;
+        notifyPropertyChanged(BR.player2Message);
+        return this;
+    }
 }

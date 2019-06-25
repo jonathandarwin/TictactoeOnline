@@ -48,8 +48,8 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
         user.setName(SESSION.name);
 
         play.setKey(key);
-        play.setTurn(1);
-        initListBox();
+        resetGame();
+
         if(playerNumber == 1){
             // INSERT PLAY GAME
             play.setPlayer1(user);
@@ -77,21 +77,47 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
         getBinding().box7.setOnClickListener(this);
         getBinding().box8.setOnClickListener(this);
         getBinding().box9.setOnClickListener(this);
+
+        getBinding().btnPlayAgain.setOnClickListener(this);
+        getBinding().btnQuit.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         // VALIDATE TURN AND VALIDATE BUTTON
-        if(winner == 0 && turn == playerNumber && getViewModel().validateButton(play, getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId())))){
-            // UPDATE BOX
-            int boxPosition = getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId()));
-            play.getListBox().set(boxPosition-1, getResources().getColor(turn == 1 ? R.color.colorRed : R.color.colorBlue));
+        if(v.equals(getBinding().btnPlayAgain)){
+            String text = SESSION.name + " wants to play again.";
+            if(playerNumber == 1){
+                play.setPlayer2Message(text);
+            }
+            else{
+                play.setPlayer1Message(text);
+            }
 
-            // UPDATE TURN - FOR PLAYER
-            turn = playerNumber == 1 ? 2 : 1;
-            play.setTurn(turn);
+            int playAgain = play.getPlayAgain() + 1;
+            play.setPlayAgain(playAgain);
+            if(playAgain == 2){
+                resetGame();
+            }
 
             getViewModel().insertPlay(play);
+        }
+        else if(v.equals(getBinding().btnQuit)){
+
+        }
+        else{
+            // BOX
+            if(winner == 0 && turn == playerNumber && getViewModel().validateButton(play, getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId())))){
+                // UPDATE BOX
+                int boxPosition = getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId()));
+                play.getListBox().set(boxPosition-1, getResources().getColor(turn == 1 ? R.color.colorRed : R.color.colorBlue));
+
+                // UPDATE TURN - FOR PLAYER
+                turn = playerNumber == 1 ? 2 : 1;
+                play.setTurn(turn);
+
+                getViewModel().insertPlay(play);
+            }
         }
     }
 
@@ -124,6 +150,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
 
                     winner = getViewModel().checkBox(play);
                     if(winner != 0){
+                        getBinding().llWin.setVisibility(View.VISIBLE);
                         if(winner == playerNumber){
                             getBinding().txtWinner.setText(YOU_WIN);
                             getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorGreen));
@@ -133,11 +160,32 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
                             getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorRed));
                         }
                     }
+                    else{
+                        getBinding().llWin.setVisibility(View.GONE);
+                    }
+
+                    // SET MESSAGE
+                    if(playerNumber == 1 && !play.getPlayer1Message().equals("")){
+                        getBinding().txtWaiting.setText(play.getPlayer1Message());
+                    }
+                    else if (playerNumber == 2 && !play.getPlayer2Message().equals("")){
+                        getBinding().txtWaiting.setText(play.getPlayer2Message());
+                    }
                 }
             }
         });
     }
 
-
+    private void resetGame(){
+        winner = 0;
+        initListBox();
+        play.setPlayAgain(0);
+        play.setPlayer1Message("");
+        play.setPlayer2Message("");
+        turn = 1;
+        play.setTurn(turn);
+        getBinding().llWin.setVisibility(View.GONE);
+        getBinding().txtWaiting.setText("");
+    }
 
 }
