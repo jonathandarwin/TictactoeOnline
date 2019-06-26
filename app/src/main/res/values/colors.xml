@@ -6,6 +6,7 @@
     <color name="colorBlack">#000</color>
     <color name="colorWhite">#fff</color>
     <color name="colorBrown">#A4A4A4</color>
+    <color name="colorBrownDivider">#d6d9dc</color>
     <color name="colorRed">#F00</color>
     <color name="colorBlue">#00F</color>
     <color name="colorGreen">#0F0</color>
