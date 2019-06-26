@@ -11,13 +11,13 @@ public class Play extends BaseObservable {
     protected String key;
     protected User player1;
     protected User player2;
-    protected int color1;
-    protected int color2;
     protected List<Integer> listBox;
     protected int turn;
     protected int playAgain;
     protected String player1Message;
     protected String player2Message;
+    protected int leftGame;
+    protected boolean reset;
 
     @Bindable
     public User getPlayer1() {
@@ -37,26 +37,6 @@ public class Play extends BaseObservable {
     public void setPlayer2(User player2) {
         this.player2 = player2;
         notifyPropertyChanged(BR.player2);
-    }
-
-    @Bindable
-    public int getColor1() {
-        return color1;
-    }
-
-    public void setColor1(int color1) {
-        this.color1 = color1;
-        notifyPropertyChanged(BR.color1);
-    }
-
-    @Bindable
-    public int getColor2() {
-        return color2;
-    }
-
-    public void setColor2(int color2) {
-        this.color2 = color2;
-        notifyPropertyChanged(BR.color2);
     }
 
     @Bindable
@@ -120,6 +100,28 @@ public class Play extends BaseObservable {
     public Play setPlayer2Message(String player2Message) {
         this.player2Message = player2Message;
         notifyPropertyChanged(BR.player2Message);
+        return this;
+    }
+
+    @Bindable
+    public int getLeftGame() {
+        return leftGame;
+    }
+
+    public Play setLeftGame(int leftGame) {
+        this.leftGame = leftGame;
+        notifyPropertyChanged(BR.leftGame);
+        return this;
+    }
+
+    @Bindable
+    public boolean isReset() {
+        return reset;
+    }
+
+    public Play setReset(boolean reset) {
+        this.reset = reset;
+        notifyPropertyChanged(BR.reset);
         return this;
     }
 }

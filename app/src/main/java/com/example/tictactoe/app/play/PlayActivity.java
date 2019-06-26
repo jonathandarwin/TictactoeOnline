@@ -74,6 +74,13 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        play.setLeftGame(playerNumber);
+        getViewModel().insertPlay(play);
+    }
+
+    @Override
     protected void setListener() {
         super.setListener();
         getBinding().box1.setOnClickListener(this);
@@ -98,6 +105,9 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
                 resetGame();
             }
             else{
+                // DISABLED BUTTON
+                disabledButton();
+
                 String text = loadUserData().getName() + " wants to play again.";
                 if(playerNumber == 1){
                     play.setPlayer2Message(text);
@@ -108,7 +118,9 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
 
                 int playAgain = play.getPlayAgain() + 1;
                 play.setPlayAgain(playAgain);
+
                 if(playAgain == 2){
+                    play.setReset(true);
                     resetGame();
                 }
 
@@ -192,6 +204,10 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
             public void onChanged(@Nullable Play response) {
                 play = response;
                 if(response != null){
+                    if(play.isReset()){
+                        play.setReset(false);
+                        enabledButton();
+                    }
                     // UPDATE TURN - FOR OPPONENT
                     turn = response.getTurn();
                     checkTurn();
@@ -223,6 +239,7 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
         checkTurn();
         getBinding().llWin.setVisibility(View.INVISIBLE);
         getBinding().txtWaiting.setText("");
+        enabledButton();
     }
 
     private void checkWinner(){
@@ -245,7 +262,18 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
             }
         }
         else{
-            getBinding().llWin.setVisibility(View.INVISIBLE);
+            // CHECK LEFT OPPONENT
+            if(play.getLeftGame() != 0){
+                winner = playerNumber;
+                String name = playerNumber == 1 ? play.getPlayer1().getName() : play.getPlayer2().getName();
+                getBinding().llWin.setVisibility(View.VISIBLE);
+                getBinding().txtWinner.setText(YOU_WIN);
+                getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorGreen));
+                getBinding().txtWaiting.setText(name + " has left the game.");
+            }
+            else{
+                getBinding().llWin.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -258,5 +286,15 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
             getBinding().turn1.setVisibility(View.GONE);
             getBinding().turn2.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void disabledButton(){
+        getBinding().btnPlayAgain.setEnabled(false);
+        getBinding().setColorButton(getResources().getColor(R.color.colorBrown));
+    }
+
+    private void enabledButton(){
+        getBinding().btnPlayAgain.setEnabled(true);
+        getBinding().setColorButton(getResources().getColor(R.color.colorGreen));;
     }
 }

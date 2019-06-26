@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.example.tictactoe.model.Play"/>
+
+        <variable
+            name="colorButton"
+            type="int"/>
     </data>
 
     <LinearLayout
@@ -256,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:text="Play Again"
                     android:textColor="@color/colorWhite"
-                    android:backgroundTint="@color/colorGreen"
+                    android:backgroundTint="@{colorButton}"
                     />
 
                 <Button
