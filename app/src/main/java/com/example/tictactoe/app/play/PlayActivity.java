@@ -2,13 +2,16 @@ package com.example.tictactoe.app.play;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import com.example.tictactoe.R;
 import com.example.tictactoe.app.room.RoomActivity;
 import com.example.tictactoe.common.BaseActivity;
 import com.example.tictactoe.databinding.PlayActivityBinding;
 import com.example.tictactoe.model.Play;
+import com.example.tictactoe.model.Room;
 import com.example.tictactoe.model.User;
 
 import java.util.ArrayList;
@@ -37,26 +40,37 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
         play = new Play();
         playerNumber = getIntent().getExtras().getInt("playerNumber");
         key = getIntent().getExtras().getString("key");
-
-        User userIntent = (User) getIntent().getExtras().getSerializable("player");
         User user = loadUserData();
 
-        play.setKey(key);
         resetGame();
 
-        if(playerNumber == 1){
-            // INSERT PLAY GAME
+        if(key.equals(RoomActivity.CODE_BOT)){
             play.setPlayer1(user);
-            play.setPlayer2(userIntent);
-            getViewModel().insertPlay(play);
-        }
-        else if (playerNumber == 2){
-            play.setPlayer1(userIntent);
-            play.setPlayer2(user);
-        }
-        getBinding().setViewModel(play);
+            play.setPlayer2(getViewModel().makeBot());
 
-        listenToKey();
+            getBinding().setViewModel(play);
+
+            checkTurn();
+        }
+        else{
+            User userIntent = (User) getIntent().getExtras().getSerializable("player");
+
+            play.setKey(key);
+
+            if(playerNumber == 1){
+                // INSERT PLAY GAME
+                play.setPlayer1(user);
+                play.setPlayer2(userIntent);
+                getViewModel().insertPlay(play);
+            }
+            else if (playerNumber == 2){
+                play.setPlayer1(userIntent);
+                play.setPlayer2(user);
+            }
+            getBinding().setViewModel(play);
+
+            listenToKey();
+        }
     }
 
     @Override
@@ -80,46 +94,86 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
     public void onClick(View v) {
         // VALIDATE TURN AND VALIDATE BUTTON
         if(v.equals(getBinding().btnPlayAgain)){
-            String text = loadUserData().getName() + " wants to play again.";
-            if(playerNumber == 1){
-                play.setPlayer2Message(text);
-            }
-            else{
-                play.setPlayer1Message(text);
-            }
-
-            int playAgain = play.getPlayAgain() + 1;
-            play.setPlayAgain(playAgain);
-            if(playAgain == 2){
+            if(key.equals(RoomActivity.CODE_BOT)){
                 resetGame();
             }
+            else{
+                String text = loadUserData().getName() + " wants to play again.";
+                if(playerNumber == 1){
+                    play.setPlayer2Message(text);
+                }
+                else{
+                    play.setPlayer1Message(text);
+                }
 
-            getViewModel().insertPlay(play);
+                int playAgain = play.getPlayAgain() + 1;
+                play.setPlayAgain(playAgain);
+                if(playAgain == 2){
+                    resetGame();
+                }
+
+                getViewModel().insertPlay(play);
+            }
         }
         else if(v.equals(getBinding().btnQuit)){
-            String text = loadUserData().getName() + " has left the game.";
-            if(playerNumber == 1){
-                play.setPlayer2Message(text);
-            }
-            else if(playerNumber == 2){
-                play.setPlayer1Message(text);
+            if(!key.equals(RoomActivity.CODE_BOT)){
+                String text = loadUserData().getName() + " has left the game.";
+                if(playerNumber == 1){
+                    play.setPlayer2Message(text);
+                }
+                else if(playerNumber == 2){
+                    play.setPlayer1Message(text);
+                }
+
+                getViewModel().insertPlay(play);
             }
 
-            getViewModel().insertPlay(play);
             gotoIntent(RoomActivity.class, null, true);
         }
         else{
             // BOX
-            if(winner == 0 && turn == playerNumber && getViewModel().validateButton(play, getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId())))){
-                // UPDATE BOX
-                int boxPosition = getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId()));
-                play.getListBox().set(boxPosition-1, getResources().getColor(turn == 1 ? R.color.colorRed : R.color.colorBlue));
+            if(key.equals(RoomActivity.CODE_BOT)){
+                if(winner == 0){
+                    // PLAYER MOVE
+                    int boxPosition = getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId()));
+                    play.getListBox().set(boxPosition-1, getResources().getColor(R.color.colorRed));
 
-                // UPDATE TURN - FOR PLAYER
-                turn = playerNumber == 1 ? 2 : 1;
-                play.setTurn(turn);
+                    // UDPATE VIEW
+                    turn = 2;
+                    checkTurn();
+                    getBinding().setViewModel(play);
+                    checkWinner();
 
-                getViewModel().insertPlay(play);
+                    if(winner == 0){
+                        // BOT MOVE
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getViewModel().moveBot(play);
+
+                                // UDPATE VIEW
+                                turn = 1;
+                                checkTurn();
+                                getBinding().setViewModel(play);
+                                checkWinner();
+                            }
+                        }, 300);
+                    }
+                }
+            }
+            else{
+                if(winner == 0 && turn == playerNumber && getViewModel().validateButton(play, getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId())))){
+                    // UPDATE BOX
+                    int boxPosition = getViewModel().getBoxPosition(getResources().getResourceEntryName(v.getId()));
+                    play.getListBox().set(boxPosition-1, getResources().getColor(turn == 1 ? R.color.colorRed : R.color.colorBlue));
+
+                    // UPDATE TURN - FOR PLAYER
+                    turn = playerNumber == 1 ? 2 : 1;
+                    play.setTurn(turn);
+
+                    getViewModel().insertPlay(play);
+                }
             }
         }
     }
@@ -140,38 +194,11 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
                 if(response != null){
                     // UPDATE TURN - FOR OPPONENT
                     turn = response.getTurn();
-                    if(response.getTurn() == 1){
-                        getBinding().turn1.setVisibility(View.VISIBLE);
-                        getBinding().turn2.setVisibility(View.GONE);
-                    }
-                    else if (response.getTurn() == 2){
-                        getBinding().turn1.setVisibility(View.GONE);
-                        getBinding().turn2.setVisibility(View.VISIBLE);
-                    }
+                    checkTurn();
 
                     getBinding().setViewModel(response);
 
-                    winner = getViewModel().checkBox(play);
-                    if(winner != 0){
-                        getBinding().llWin.setVisibility(View.VISIBLE);
-
-                        // DRAW
-                        if(winner == 3){
-                            getBinding().txtWinner.setText(DRAW);
-                            getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorBrown));
-                        }
-                        else if(winner == playerNumber){
-                            getBinding().txtWinner.setText(YOU_WIN);
-                            getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorGreen));
-                        }
-                        else {
-                            getBinding().txtWinner.setText(YOU_LOSE);
-                            getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorRed));
-                        }
-                    }
-                    else{
-                        getBinding().llWin.setVisibility(View.INVISIBLE);
-                    }
+                    checkWinner();
 
                     // SET MESSAGE
                     if(playerNumber == 1 && !play.getPlayer1Message().equals("")){
@@ -193,8 +220,43 @@ public class PlayActivity extends BaseActivity<PlayViewModel, PlayActivityBindin
         play.setPlayer2Message("");
         turn = 1;
         play.setTurn(turn);
-        getBinding().llWin.setVisibility(View.GONE);
+        checkTurn();
+        getBinding().llWin.setVisibility(View.INVISIBLE);
         getBinding().txtWaiting.setText("");
     }
 
+    private void checkWinner(){
+        winner = getViewModel().checkBox(play);
+        if(winner != 0){
+            getBinding().llWin.setVisibility(View.VISIBLE);
+
+            // DRAW
+            if(winner == 3){
+                getBinding().txtWinner.setText(DRAW);
+                getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorBrown));
+            }
+            else if(winner == playerNumber){
+                getBinding().txtWinner.setText(YOU_WIN);
+                getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorGreen));
+            }
+            else {
+                getBinding().txtWinner.setText(YOU_LOSE);
+                getBinding().txtWinner.setTextColor(getResources().getColor(R.color.colorRed));
+            }
+        }
+        else{
+            getBinding().llWin.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void checkTurn(){
+        if(turn == 1){
+            getBinding().turn1.setVisibility(View.VISIBLE);
+            getBinding().turn2.setVisibility(View.GONE);
+        }
+        else if (turn == 2){
+            getBinding().turn1.setVisibility(View.GONE);
+            getBinding().turn2.setVisibility(View.VISIBLE);
+        }
+    }
 }

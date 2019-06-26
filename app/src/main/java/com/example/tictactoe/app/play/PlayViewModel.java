@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
@@ -16,21 +17,32 @@ import com.example.tictactoe.R;
 import com.example.tictactoe.common.APIHandler;
 import com.example.tictactoe.common.APIHelper;
 import com.example.tictactoe.model.Play;
+import com.example.tictactoe.model.User;
 import com.example.tictactoe.repository.PlayRepository;
 import com.google.android.gms.common.internal.ResourceUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PlayViewModel extends ViewModel {
 
     private Context context;
     private PlayRepository repo;
+    private List<String> listName;
 
     public PlayViewModel(Context context){
         this.context = context;
         repo = PlayRepository.getInstance();
+        listName = new ArrayList<>();
+        listName.add("Joe");
+        listName.add("Nathan");
+        listName.add("Bob");
+        listName.add("Eli");
+        listName.add("Bill");
+        listName.add("Charlie");
     }
 
     public boolean insertPlay(Play play){
@@ -67,16 +79,6 @@ public class PlayViewModel extends ViewModel {
         List<Integer> box = play.getListBox();
         int boxNumber = -1;
         int filled = 0;
-        // CHECK IF ALL THE BOX IS FILLED WITH COLOR
-        for (int i=0; i<play.getListBox().size(); i++){
-            if(play.getListBox().get(i).intValue() != context.getResources().getColor(R.color.colorBrown)){
-                filled++;
-            }
-        }
-
-        if(filled == 9){
-            return 3;
-        }
 
         // CHECK ROW
         for (int i=0; i<9; i+=3){
@@ -106,6 +108,17 @@ public class PlayViewModel extends ViewModel {
             }
         }
 
+        // CHECK IF ALL THE BOX IS FILLED WITH COLOR
+        for (int i=0; i<play.getListBox().size(); i++){
+            if(play.getListBox().get(i).intValue() != context.getResources().getColor(R.color.colorBrown)){
+                filled++;
+            }
+        }
+
+        if(filled == 9){
+            return 3;
+        }
+
         return 0;
     }
 
@@ -118,5 +131,28 @@ public class PlayViewModel extends ViewModel {
             return 2;
         }
         return 0;
+    }
+
+    public User makeBot(){
+        User user = new User();
+        user.setEmail("BOT");
+        user.setName(generateBotName());
+        return user;
+    }
+
+    private String generateBotName(){
+        Random random = new Random();
+        return "BOT " + listName.get(random.nextInt(6));
+    }
+
+    public Play moveBot(final Play play){
+        Random random = new Random();
+        while(true){
+            int i = random.nextInt(9);
+            if(play.getListBox().get(i) == context.getResources().getColor(R.color.colorBrown)){
+                play.getListBox().set(i, context.getResources().getColor(R.color.colorBlue));
+                return play;
+            }
+        }
     }
 }

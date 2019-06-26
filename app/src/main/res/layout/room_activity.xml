@@ -22,7 +22,7 @@
             android:id="@+id/no_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+
             >
 
             <ImageView
@@ -42,6 +42,20 @@
                 android:textColor="@color/colorRed"
                 android:textSize="25sp"
                 android:layout_centerInParent="true"
+                />
+
+            <Button
+                android:id="@+id/btnPlayWithBot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play with bot"
+                android:textColor="@color/colorWhite"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/txtNoData"
+                android:drawableLeft="@drawable/ic_android"
+                android:drawablePadding="10dp"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/colorPrimaryDark"
                 />
 
         </RelativeLayout>

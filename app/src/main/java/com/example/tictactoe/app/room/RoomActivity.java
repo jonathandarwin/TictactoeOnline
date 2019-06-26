@@ -19,7 +19,10 @@ import com.example.tictactoe.util.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBinding> {
+public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBinding>
+            implements View.OnClickListener{
+
+    public final static String CODE_BOT = "BOT";
 
     RoomAdapter adapter;
     List<User> listUser;
@@ -91,6 +94,22 @@ public class RoomActivity extends BaseActivity<RoomViewModel, RoomActivityBindin
     protected void onPause() {
         super.onPause();
         getViewModel().deleteRoomUser(key);
+    }
+
+    @Override
+    protected void setListener() {
+        super.setListener();
+        getBinding().btnPlayWithBot.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.equals(getBinding().btnPlayWithBot)){
+            Bundle bundle = new Bundle();
+            bundle.putInt("playerNumber", 1);
+            bundle.putString("key", CODE_BOT);
+            gotoIntent(PlayActivity.class, bundle, true);
+        }
     }
 
     private void initAdapter(){
